@@ -24,8 +24,6 @@ export default function App() {
       if (sidecarRef.current) {
         await sidecarRef.current.kill();
         sidecarRef.current = null;
-        setConnected(false, 'Disconnected');
-        return;
       }
 
       const command = Command.sidecar('binaries/oppoctl-cpp', [
@@ -49,8 +47,6 @@ export default function App() {
     if (wsRef.current) {
       wsRef.current.close();
       wsRef.current = null;
-      setConnected(false, 'Disconnected');
-      return;
     }
 
     try {
@@ -109,6 +105,7 @@ export default function App() {
   };
 
   useEffect(() => {
+    handleConnect();
     return () => {
       if (sidecarRef.current) sidecarRef.current.kill();
       if (wsRef.current) wsRef.current.close();
